@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :emp_no %>
+    <%= f.number_field :emp_no %>
+  </div>
+
+  <div class="field">
     <%= f.label :first_name %>
     <%= f.text_field :first_name %>
   </div>
@@ -33,7 +38,7 @@
 
   <div class="field">
     <%= f.label :gender %>
-    <%= f.number_field :gender %>
+    <%= f.text_field :gender %>
   </div>
 
   <div class="actions">
