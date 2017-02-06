@@ -1,6 +1,6 @@
 class Employee < ApplicationRecord
   self.primary_key = "emp_no"
-  enum gender: [ :M, :F ]
+  # enum gender: [ :M, :F ]
 
   validates :emp_no, presence: true,
             length: { minimum: 5 }

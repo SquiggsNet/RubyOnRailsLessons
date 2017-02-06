@@ -27,6 +27,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :gender %>
+    <%= f.select :gender, [['Male','M'],['Female','F']], :include_blank => true %>
+  </div>
+
+  <div class="field">
     <%= f.label :birth_date %>
     <%= f.date_select :birth_date %>
   </div>
@@ -34,11 +39,6 @@
   <div class="field">
     <%= f.label :hire_date %>
     <%= f.date_select :hire_date %>
-  </div>
-
-  <div class="field">
-    <%= f.label :gender %>
-    <%= f.text_field :gender %>
   </div>
 
   <div class="actions">
