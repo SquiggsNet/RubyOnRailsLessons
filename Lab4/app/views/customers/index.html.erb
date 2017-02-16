@@ -2,17 +2,18 @@
 
 <h1>Customers</h1>
 
-<table>
+<table border="1">
   <thead>
     <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
+      <th>Customer ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
       <th>Company</th>
       <th>Address</th>
       <th>City</th>
       <th>State</th>
       <th>Country</th>
-      <th>Postalcode</th>
+      <th>Postal Code</th>
       <th>Phone</th>
       <th>Fax</th>
       <th>Email</th>
@@ -23,6 +24,7 @@
   <tbody>
     <% @customers.each do |customer| %>
       <tr>
+        <td><%= customer.CustomerId %></td>
         <td><%= customer.FirstName %></td>
         <td><%= customer.LastName %></td>
         <td><%= customer.Company %></td>
@@ -41,6 +43,10 @@
     <% end %>
   </tbody>
 </table>
+
+<br>
+
+<%= will_paginate @customers %>
 
 <br>
 
