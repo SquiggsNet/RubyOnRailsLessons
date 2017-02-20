@@ -55,5 +55,34 @@
   <%= @customer.Email %>
 </p>
 
+<p><strong>Invoices:</strong></p>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Country</th>
+      <th>Postal Code</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customer.invoices.each do |invoice| %>
+      <tr>
+        <td><%= invoice.InvoiceDate %></td>
+        <td><%= invoice.BillingAddress %></td>
+        <td><%= invoice.BillingCity %></td>
+        <td><%= invoice.BillingState %></td>
+        <td><%= invoice.BillingCountry %></td>
+        <td><%= invoice.BillingPostalCode %></td>
+        <td><%= invoice.Total %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>
