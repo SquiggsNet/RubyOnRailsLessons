@@ -1,8 +1,7 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Customers</h1>
+<%= link_to (image_tag "customer.png", class: "myIcon") + ' New Customer' , new_customer_path, :class => "btn btn-primary" %>
 
-<table border="1">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th>Customer ID</th>
@@ -36,18 +35,18 @@
         <td><%= customer.Phone %></td>
         <td><%= customer.Fax %></td>
         <td><%= customer.Email %></td>
-        <td><%= link_to 'Show', customer %></td>
-        <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
-        <td><%= link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to (image_tag "show.png", class: "myIcon"), customer, :class => "btn btn-success" %></td>
+        <td><%= link_to (image_tag "edit.png", class: "myIcon"), edit_customer_path(customer), :class => "btn btn-warning" %></td>
+        <td><%= link_to (image_tag "delete.png", class: "myIcon"), customer, :class => "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
 <%= will_paginate @customers %>
 
 <br>
 
-<%= link_to 'New Customer', new_customer_path %>
+<p id="notice"><%= notice %></p>
+
+

@@ -10,14 +10,15 @@
 
   <body>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+
 
     <%= yield %>
 
     <% if user_signed_in? %>
-        <p><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></p>
+        <%= link_to((image_tag "logout.png", class: "myIcon")+'Logout', destroy_user_session_path, :method => :delete, :class => "btn btn-primary") %>
     <% end %>
 
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
   </body>
 </html>

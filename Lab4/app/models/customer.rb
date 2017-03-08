@@ -3,4 +3,5 @@ class Customer < ActiveRecord::Base
     self.primary_key = :CustomerId
 
     has_many :invoices, foreign_key: :CustomerId
+
 end
