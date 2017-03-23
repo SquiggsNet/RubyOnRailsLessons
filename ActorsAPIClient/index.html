@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="actorsApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular API Client for Actors</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="scripts.js"></script>
+</head>
+<body data-ng-controller="actorsController">
+
+    <form data-ng-submit="addActor()">
+        <div class="form-group">
+            <label for="formGroupFirstName">First Name</label>
+            <input type="text" class="form-control" id="formGroupFirstName" placeholder="John" data-ng-model="actor.first_name">
+        </div>
+        <div class="form-group">
+            <label for="formGroupLastName">Last Name</label>
+            <input type="text" class="form-control" id="formGroupLastName" placeholder="Doe" data-ng-model="actor.last_name">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Actor</button>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Actors ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="actor in actors">
+                <td>{{ actor.actor_id}}</td>
+                <td contenteditable="true" id="actorFirstName{{ actor.actor_id}}">{{ actor.first_name}}</td>
+                <td contenteditable="true" id="actorLastName{{ actor.actor_id}}">{{ actor.last_name}}</td>
+                <td>
+                    <button type="button" class="btn-success btn btn-default" data-ng-click="updateActor(actor)">
+                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn-danger btn btn-default" data-ng-click="deleteActor(actor)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

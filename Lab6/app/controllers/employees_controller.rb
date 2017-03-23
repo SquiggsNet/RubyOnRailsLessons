@@ -1,6 +1,8 @@
 class EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :update, :destroy]
 
+  http_basic_authenticate_with name: "Squiggs", password: "Net", except: [:index, :show]
+
   # GET /employees
   def index
     @employees = Employee.all.limit(10)
