@@ -47,8 +47,8 @@ class PlaylistsController < ApplicationController
     end
 
     def add_tracks_to_playlist
-      @track = Track.find(params[:TrackId])
-      @playlist.tracks << @track
+      @track = Track.find(params[:TrackId].split(','))
+      @playlist.tracks = @track
     end
 
     # Only allow a trusted parameter "white list" through.
