@@ -1,7 +1,7 @@
+include ActionController::HttpAuthentication::Basic::ControllerMethods
 class EmployeesController < ApplicationController
-  before_action :set_employee, only: [:show, :update, :destroy]
-
   http_basic_authenticate_with name: "Squiggs", password: "Net", except: [:index, :show]
+  before_action :set_employee, only: [:show, :update, :destroy]
 
   # GET /employees
   def index
