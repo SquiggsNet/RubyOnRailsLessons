@@ -1,4 +1,6 @@
+include ActionController::HttpAuthentication::Token::ControllerMethods
 class PlaylistsController < ApplicationController
+  before_filter :restrict_access
   before_action :set_playlist, only: [:show, :update, :destroy]
 
   # GET /playlists
@@ -54,5 +56,11 @@ class PlaylistsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def playlist_params
       params.permit(:PlaylistID, :Name )
+    end
+
+    def restrict_access
+      authenticate_or_request_with_http_token do |token, options|
+        ApiKey.exists?(access_token: token)
+      end
     end
 end
