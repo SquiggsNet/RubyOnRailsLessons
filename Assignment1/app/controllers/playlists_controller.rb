@@ -1,6 +1,6 @@
 include ActionController::HttpAuthentication::Token::ControllerMethods
 class PlaylistsController < ApplicationController
-  before_filter :restrict_access
+  # before_filter :restrict_access
   before_action :set_playlist, only: [:show, :update, :destroy]
 
   # GET /playlists
