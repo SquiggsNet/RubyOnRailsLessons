@@ -5,7 +5,7 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists
   def index
-    @playlists = Playlist.all
+    @playlists = Playlist.all.order(Name: :desc)
 
     render json: @playlists, include: ['tracks']
   end
@@ -49,8 +49,10 @@ class PlaylistsController < ApplicationController
     end
 
     def add_tracks_to_playlist
-      @track = Track.find(params[:TrackId].split(','))
-      @playlist.tracks = @track
+      if(params[:TrackId].present?)
+        @track = Track.find(params[:TrackId].split(','))
+        @playlist.tracks = @track
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

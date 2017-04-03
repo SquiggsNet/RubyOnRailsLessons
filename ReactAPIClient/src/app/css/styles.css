@@ -1,0 +1,53 @@
+.whole, .half, .third, .third-x2, .quarter, .quarter-x3, .sixth, .twelveth{
+    float:left;
+    padding:0;
+    margin: 0 2% 0 0;
+}
+
+.whole { width: 100%; }
+
+.half { width: 49%; }
+
+.third { width: 32%; } .third-x2 { width: 64%; }
+
+.quarter { width: 23.5%; } .quarter-x3 { width: 74.2% }
+
+.sixth { width: 15%; } .sixth-x5 { width: 83%; }
+
+.twelveth { width: 5.4%; }
+
+.last { margin-right:0;
+    padding-right: 0 !important;}
+
+#buttonCol{
+    width: 40px;
+}
+
+/* ==========================================================================
+   Media Queries for Responsive Design.
+   These styles override the primary styles.
+   ========================================================================== */
+
+
+@media (max-width: 1000px) {
+    .third, .third-x2{
+        width: 49%;
+    }
+
+    /*.sixth{ width: 23.5%; }*/
+
+    /*.new_last { margin-right:0;*/
+        /*padding-right: 0 !important;}*/
+}
+
+/*@media (max-width: 768px) {*/
+    /*.half, .quarter{*/
+        /*width: 100%;*/
+    /*}*/
+/*}*/
+
+/*@media (max-width: 550px) {*/
+    /*.third-x2, .third{*/
+        /*width: 100%;*/
+    /*}*/
+/*}*/
