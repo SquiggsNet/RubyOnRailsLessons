@@ -1,29 +1,17 @@
-const urlForPlaylists = 'localhost:3000/playlists';
-
 var PlaylistApp = React.createClass({
-    render: function(){
-        return (
-            <div className="container">
-                <Playlists />
-            </div>
-        );
-    }
-});
 
-var Playlists = React.createClass({
-
+    //set up initial states
     getInitialState: function(){
         return {
             name: "Squiggs' Playlists",
-            playlistLists: [],
-            createNew: false
+            playlists: [],
+            selesctedplaylistName: '',
+            tracklist: [],
+            listClicked: false
         }
     },
 
-    playlistNameChange(event) {
-        this.setState({playlistName: event.target.value});
-    },
-
+    //call api to retrieve list of playlists upon load
     componentDidMount: function(){
         $.ajax({
             url: 'http://localhost:3000/playlists',
@@ -31,7 +19,7 @@ var Playlists = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(results) {
-                this.setState({playlistLists: results});
+                this.setState({playlists: results});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -39,14 +27,32 @@ var Playlists = React.createClass({
         });
     },
 
-    newPlaylist: function(){
+    //call api to retrieve tracks of selected playlist
+    displayPlaylist: function(id, event){
+        $.ajax({
+            url: 'http://localhost:3000/playlists/'+id,
+            method: "GET",
+            dataType: 'json',
+            cache: false,
+            success: function(results) {
+                console.log(results)
+                this.setState({
+                    selesctedplaylistName: results.Name,
+                    tracklist: results.tracks
+                });
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
         this.setState({
-            createNew: true
+            listClicked: true
         });
     },
 
-    createPlaylist: function(){
-        var saveData = 'Name=' + this.state.playlistName;
+    //call api to create playlist
+    createPlaylist: function(newName){
+        var saveData = 'Name=' + newName;
         $.ajax({
             url: 'http://localhost:3000/playlists/',
             method: "POST",
@@ -60,11 +66,11 @@ var Playlists = React.createClass({
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-        this.setState({
-            createNew: false
-        });
     },
 
+    //call api to update playlist
+
+    //call api to delete plalist
     deletePlaylist: function(id, event){
         $.ajax({
             url: 'http://localhost:3000/playlists/'+id,
@@ -73,7 +79,7 @@ var Playlists = React.createClass({
             cache: false,
             success: function(results) {
                 this.setState({
-                    playlistLists: this.state.playlistLists.filter(playlist => playlist.PlaylistId !== id)
+                    playlists: this.state.playlists.filter(playlist => playlist.PlaylistId !== id)
                 });
             }.bind(this),
             error: function(xhr, status, err) {
@@ -82,52 +88,56 @@ var Playlists = React.createClass({
         });
     },
 
-    renderNew: function(){
-        var playlists = this.state.playlistLists.map((list, index) => {
-            return (<tr key={list.PlaylistId}>
-                <td>
-                    {list.Name}
-                </td>
-                <td id="buttonCol">
-                    <button onClick={this.deletePlaylist.bind(this, list.PlaylistId)} className="btn btn-danger pull-right">
-                        <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </button>
-                </td>
-            </tr>);
-        });
-
-        return (
-            <div>
-                <table className="table table-bordered table-striped third">
-                    <thead>
-                    <th colSpan="2">{this.state.name}<button onClick={this.newPlaylist} className="btn btn-primary pull-right">Create New Playlist</button></th>
-                    </thead>
-                    <tbody>
-                    {playlists}
-                    </tbody>
-                </table>
-                <div className="third-x2 last">
-                    <form className="form-inline">
-                        <div className="form-group">
-                            <label for="newPlaylistName">Name</label>
-                            <input type="text" className="form-control" id="newPlaylistName" placeholder="New Playlist"  value={this.state.playlistName} onChange={this.playlistNameChange}/>
-                        </div>
-                        <button type="submit" onClick={this.createPlaylist} className="btn btn-default">Add Playlist</button>
-                    </form>
-                    <Playlist />
+    render: function(){
+        if (!this.state.listClicked) {
+            return (
+                <div className="container">
+                    <Playlists
+                        playlists={this.state.playlists}
+                        DeletePlaylist={this.deletePlaylist}
+                        DisplayPlaylist={this.displayPlaylist}
+                    />
+                    <NewPlaylist
+                        CreatePlaylist={this.createPlaylist}
+                    />
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div className="container">
+                    <Playlists
+                        playlists={this.state.playlists}
+                        DeletePlaylist={this.deletePlaylist}
+                        DisplayPlaylist={this.displayPlaylist}
+                    />
+                    <Playlist
+                        selesctedplaylistName={this.state.selesctedplaylistName}
+                        tracklist={this.state.tracklist}
+                    />
+                    {/*<Playlist selesctedplaylistName={this.state.selesctedplaylistName} trackList={this.state.trackList}/>*/}
+                </div>
+            );
+        }
+
+    }
+});
+
+var Playlists = React.createClass({
+
+    getInitialState: function(){
+        return {
+            name: "Squiggs' Playlists",
+        }
     },
 
-    renderNormal: function(){
-        var playlists = this.state.playlistLists.map((list, index) => {
+    render: function(){
+        var playlists = this.props.playlists.map((list, index) => {
             return (<tr key={list.PlaylistId}>
-                        <td onClick={this.displayPlaylist.bind(this, list.PlaylistId)} >
+                        <td onClick={this.props.DisplayPlaylist.bind(this, list.PlaylistId)} >
                             {list.Name}
                         </td>
                         <td id="buttonCol">
-                            <button onClick={this.deletePlaylist.bind(this, list.PlaylistId)} className="btn btn-danger pull-right">
+                            <button onClick={this.props.DeletePlaylist.bind(this, list.PlaylistId)} className="btn btn-danger pull-right">
                                 <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </button>
                         </td>
@@ -145,37 +155,24 @@ var Playlists = React.createClass({
                     </tbody>
                 </table>
                 <div className="third-x2 last">
-                    <Playlist />
+
                 </div>
             </div>
         );
-    },
-
-    render: function(){
-        if(this.state.createNew){
-            return this.renderNew();
-        }else{
-            return this.renderNormal();
-        }
     }
 });
 
 var Playlist = React.createClass({
 
-    getInitialState: function(){
-      return {
-          trackList: ['coding', 'writing', 'skiing']
-      }
-    },
-
     render: function(){
-        var tracks = this.state.trackList.map(function(track, index){
-            return (<tr key={index}><td>{track}</td></tr>);
+        var tracks = this.props.tracklist.map(function(track, index){
+            return (<tr key={track.TrackId}><td>{track.Name}</td></tr>);
         });
 
         return (
             <div>
-                <table className= "table table-bordered table-striped" >
+                <h3>{this.props.selesctedplaylistName}</h3>
+                <table className= "table table-bordered table-striped third-x2 last" >
                     <thead>
                         <th>Tracks</th>
                     </thead>
@@ -188,5 +185,29 @@ var Playlist = React.createClass({
     }
 });
 
-ReactDOM.render(<PlaylistApp />, document.getElementById('container')
-);
+var NewPlaylist = React.createClass({
+
+    getInitialState: function(){
+        return {
+            playlistName: "",
+        }
+    },
+
+    playlistNameChange(event) {
+        this.setState({playlistName: event.target.value});
+    },
+
+   render: function(){
+       return(
+           <form className="form-inline third-x2 last">
+               <div className="form-group">
+                   <label for="newPlaylistName">Name</label>
+                   <input type="text" className="form-control" id="newPlaylistName" placeholder="New Playlist" onChange={this.playlistNameChange}/>
+               </div>
+               <button type="submit" onClick={this.props.CreatePlaylist.bind(this, this.state.playlistName)} className="btn btn-default">Add Playlist</button>
+           </form>
+       );
+   }
+});
+
+ReactDOM.render(<PlaylistApp />, document.getElementById('container'));
