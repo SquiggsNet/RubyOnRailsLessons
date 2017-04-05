@@ -8,4 +8,6 @@ class ApiKey < ApplicationRecord
       self.access_token = SecureRandom.hex
     end while self.class.exists?(access_token: access_token)
   end
+
+  has_many :playlists, :foreign_key => "ApiKeyId", :primary_key => "id"
 end

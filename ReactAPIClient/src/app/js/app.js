@@ -10,18 +10,30 @@ var PlaylistApp = React.createClass({
             selectedTracks: [],
             listClicked: false,
             newList: true,
-            playlistId: ""
-
+            playlistId: "",
+            token: "3d23386cd2fc740a13ea9b369ec2e128",
+            user: "SquiggsNet",
+            loggedIn: false,
+            userId: "29",
         }
     },
 
+    //4fc96b19879ce2063f899be826502f0a
+
     //call api to retrieve list of playlists upon load
     componentDidMount: function(){
+        var user = this.state.userId;
+        var userData = "&ApiKeyId="+user;
+        var token = this.state.token;
         $.ajax({
             url: 'http://localhost:3000/playlists',
             method: "GET",
             dataType: 'json',
             cache: false,
+            data: userData,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
                 this.setState({playlists: results});
             }.bind(this),
@@ -45,11 +57,15 @@ var PlaylistApp = React.createClass({
 
     //call api to retrieve tracks of selected playlist
     displayPlaylist: function(id, event){
+        var token = this.state.token;
         $.ajax({
             url: 'http://localhost:3000/playlists/'+id,
             method: "GET",
             dataType: 'json',
             cache: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
                 console.log(results);
                 this.setState({
@@ -90,15 +106,22 @@ var PlaylistApp = React.createClass({
 
     //call api to create playlist
     createPlaylist: function(newName, tracks){
-        var saveData = 'Name=' + newName + "&TrackId="+tracks;
+        var token = this.state.token;
+        var user = this.state.userId;
+        var saveData = 'Name=' + newName + "&TrackId="+tracks+ "&ApiKeyId="+user;
         $.ajax({
             url: 'http://localhost:3000/playlists/',
             method: "POST",
             dataType: 'json',
             cache: false,
             data: saveData,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
-                console.log(results)
+                this.setState({playlistId: results.PlaylistId})
+                this.componentDidMount()
+                this.displayPlaylist(this.state.playlistId)
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -111,6 +134,7 @@ var PlaylistApp = React.createClass({
             listClicked: true,
             newList: true
         });
+        var token = this.state.token;
 
         $.ajax({
             url: 'http://localhost:3000/tracks',
@@ -130,6 +154,9 @@ var PlaylistApp = React.createClass({
             method: "GET",
             dataType: 'json',
             cache: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
                 console.log(results);
                 this.setState({
@@ -146,34 +173,41 @@ var PlaylistApp = React.createClass({
 
     //call api to update playlist
     updatePlaylist: function(newName, tracks, id){
-        var saveData = 'Name=' + newName + "&TrackId="+tracks;
+        var token = this.state.token;
+        var user = this.state.userId;
+        var saveData = 'Name=' + newName + "&TrackId="+tracks+ "&ApiKeyId="+user;
         $.ajax({
             url: 'http://localhost:3000/playlists/'+id,
             method: "PUT",
             dataType: 'json',
             cache: false,
             data: saveData,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
                 console.log(results)
+                this.displayPlaylist(id)
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
 
-        this.setState({
-            listClicked: true,
-            newList: false
-        });
+
     },
 
     //call api to delete plalist
     deletePlaylist: function(id, event){
+        var token = this.state.token;
         $.ajax({
             url: 'http://localhost:3000/playlists/'+id,
             method: "DELETE",
             dataType: 'json',
             cache: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Authorization', 'Token token='+token);
+            },
             success: function(results) {
                 this.setState({
                     playlists: this.state.playlists.filter(playlist => playlist.PlaylistId !== id)
@@ -183,14 +217,64 @@ var PlaylistApp = React.createClass({
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
+
+        if(this.state.playlistId===id){
+            this.componentDidMount()
+        }
+    },
+
+    createUser: function(newName){
+        var saveData = 'name=' + newName;
+        $.ajax({
+            url: 'http://localhost:3000/api_keys/',
+            method: "POST",
+            dataType: 'json',
+            cache: false,
+            data: saveData,
+            success: function(results) {
+                console.log(results)
+                this.setState({
+                    user: results.name,
+                    token: results.access_token,
+                    userId: results.id
+                });
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+
+    login: function(){
+        this.setState({loggedIn: true});
+        this.componentDidMount();
     },
 
     render: function(){
-        if (!this.state.listClicked && this.state.newList) {
+        if (this.state.token===""&&!this.state.loggedIn){
+            return (
+                <div className="container">
+                    <NewUser
+                        CreateUser={this.createUser}
+                    />
+                </div>
+            );
+        } else if (!this.state.loggedIn){
+            return (
+                <div className="container">
+                    <UserInfo
+                        User={this.state.user}
+                        Token={this.state.token}
+                        Login={this.login}
+                    />
+                </div>
+            );
+        } else if (!this.state.listClicked) {
             return (
                 <div className="container">
                     <Heading/>
                     <Playlists
+                        User={this.state.user}
                         playlists={this.state.playlists}
                         DeletePlaylist={this.deletePlaylist}
                         DisplayPlaylist={this.displayPlaylist}
@@ -206,6 +290,7 @@ var PlaylistApp = React.createClass({
                 <div className="container">
                     <Heading/>
                     <Playlists
+                        User={this.state.user}
                         playlists={this.state.playlists}
                         DeletePlaylist={this.deletePlaylist}
                         DisplayPlaylist={this.displayPlaylist}
@@ -223,6 +308,7 @@ var PlaylistApp = React.createClass({
                 <div className="container">
                     <Heading/>
                     <Playlists
+                        User={this.state.user}
                         playlists={this.state.playlists}
                         DeletePlaylist={this.deletePlaylist}
                         DisplayPlaylist={this.displayPlaylist}
@@ -241,12 +327,6 @@ var PlaylistApp = React.createClass({
 });
 
 var Playlists = React.createClass({
-
-    getInitialState: function(){
-        return {
-            name: "Squiggs' Playlists",
-        }
-    },
 
     render: function(){
         var playlists = this.props.playlists.map((list, index) => {
@@ -268,7 +348,7 @@ var Playlists = React.createClass({
                 <table className="table table-bordered table-striped">
                     <thead>
                     <th></th>
-                    <th colSpan="2">{this.state.name}</th>
+                    <th colSpan="2">{this.props.User}'s Playlists</th>
                     </thead>
                     <tbody>
                     {playlists}
@@ -362,7 +442,7 @@ var NewPlaylist = React.createClass({
                        <label for="newPlaylistName">Name</label>
                        <input type="text" className="form-control" id="newPlaylistName" placeholder="New Playlist" onChange={this.playlistNameChange}/>
                    </div>
-                   <button type="submit" onClick={this.props.CreatePlaylist.bind(this, this.state.playlistName, this.state.tracks)} className="btn btn-success pull-right mright">Add Playlist</button>
+                   <button type="button" onClick={this.props.CreatePlaylist.bind(this, this.state.playlistName, this.state.tracks)} className="btn btn-success pull-right mright">Add Playlist</button>
                </form>
 
                <h3>{this.props.selesctedplaylistName}</h3>
@@ -452,7 +532,7 @@ var UpdatePlaylist = React.createClass({
                         <label for="newPlaylistName">Name</label>
                         <input type="text" className="form-control" id="newPlaylistName" defaultValue={this.props.selesctedPlaylistName} onChange={this.playlistNameChange}/>
                     </div>
-                    <button type="submit" onClick={this.props.UpdatePlaylist.bind(this, this.state.playlistName, this.state.tracks, this.props.selectedPlaylistId)} className="btn btn-success pull-right mright">Update Playlist</button>
+                    <button type="button" onClick={this.props.UpdatePlaylist.bind(this, this.state.playlistName, this.state.tracks, this.props.selectedPlaylistId)} className="btn btn-success pull-right mright">Update Playlist</button>
                 </form>
 
                 <h3>{this.props.selesctedplaylistName}</h3>
@@ -480,6 +560,46 @@ var Heading = React.createClass({
          </div>
        );
    }
+});
+
+var NewUser = React.createClass({
+
+    getInitialState: function(){
+        return {
+            userName: {},
+        }
+    },
+
+    userNameChange(event) {
+        this.setState({userName: event.target.value});
+    },
+    render: function(){
+        return(
+          <div>
+              <h3 className="text-center">Create a New User</h3>
+              <form className="form-inline">
+                  <div className="form-group mleft">
+                      <label for="userName">Name</label>
+                      <input type="text" className="form-control" id="userName" placeholder="New User" onChange={this.userNameChange}/>
+                  </div>
+                  <button type="button" onClick={this.props.CreateUser.bind(this, this.state.userName)} className="btn btn-success">Create User</button>
+              </form>
+          </div>
+        );
+    }
+});
+
+var UserInfo = React.createClass({
+
+    render: function(){
+        return(
+            <div>
+                <h3 className="text-center">Welcome {this.props.User}</h3>
+                <p>You're token is {this.props.Token}</p>
+                <button type="button" onClick={this.props.Login} className="btn btn-success">Login into app with token</button>
+            </div>
+        );
+    }
 });
 
 ReactDOM.render(<PlaylistApp />, document.getElementById('container'));

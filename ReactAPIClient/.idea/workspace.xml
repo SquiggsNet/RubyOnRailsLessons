@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c4242c4b-7f52-4d57-b702-e532f49da243" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Assignment1/app/controllers/api_keys_controller.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Assignment1/test/controllers/api_keys_controller_test.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assignment1/app/controllers/playlists_controller.rb" afterPath="$PROJECT_DIR$/../Assignment1/app/controllers/playlists_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assignment1/app/models/track.rb" afterPath="$PROJECT_DIR$/../Assignment1/app/models/track.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assignment1/app/models/api_key.rb" afterPath="$PROJECT_DIR$/../Assignment1/app/models/api_key.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assignment1/app/models/playlist.rb" afterPath="$PROJECT_DIR$/../Assignment1/app/models/playlist.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assignment1/config/routes.rb" afterPath="$PROJECT_DIR$/../Assignment1/config/routes.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/styles.css" afterPath="$PROJECT_DIR$/src/app/css/styles.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/app.js" afterPath="$PROJECT_DIR$/src/app/js/app.js" />
     </list>
     <ignored path="ReactAPIClient.iws" />
@@ -35,8 +37,8 @@
           <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/app/js/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="392" column="0" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
+                <state relative-caret-position="480">
+                  <caret line="188" column="36" selection-start-line="188" selection-start-column="15" selection-end-line="188" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -69,8 +71,8 @@
           <file leaf-file-name="styles.css" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/app/css/styles.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="29" column="6" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="6" />
+                <state relative-caret-position="210">
+                  <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -115,8 +117,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-1" />
-    <option name="width" value="1922" />
-    <option name="height" value="1081" />
+    <option name="y" value="28" />
+    <option name="width" value="1918" />
+    <option name="height" value="918" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -355,7 +358,7 @@
       <workItem from="1491249828169" duration="925000" />
       <workItem from="1491255706372" duration="5368000" />
       <workItem from="1491312811790" duration="3979000" />
-      <workItem from="1491335470854" duration="7327000" />
+      <workItem from="1491335470854" duration="20005000" />
     </task>
     <task id="LOCAL-00001" summary="React Client underway">
       <created>1491097579288</created>
@@ -378,11 +381,18 @@
       <option name="project" value="LOCAL" />
       <updated>1491185419866</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="front end complete">
+      <created>1491417926796</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1491417926796</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57593000" />
+    <option name="totallyTimeSpent" value="70271000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -394,10 +404,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1922" height="1081" extended-state="6" />
+    <frame x="-1" y="28" width="1918" height="918" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06649076" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.066631414" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13203214" sideWeight="0.50501317" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -430,7 +440,8 @@
     <MESSAGE value="React Client underway" />
     <MESSAGE value="delete and create (without tracks) working" />
     <MESSAGE value="view tracks of specific playlist working with the whole app broken into it's compartments" />
-    <option name="LAST_COMMIT_MESSAGE" value="view tracks of specific playlist working with the whole app broken into it's compartments" />
+    <MESSAGE value="front end complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="front end complete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -625,14 +636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/css/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="29" column="6" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -649,10 +652,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/app.js">
+    <entry file="file://$PROJECT_DIR$/src/app/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="392" column="0" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
+          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="188" column="36" selection-start-line="188" selection-start-column="15" selection-end-line="188" selection-end-column="36" />
           <folding />
         </state>
       </provider>

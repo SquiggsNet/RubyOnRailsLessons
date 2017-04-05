@@ -1,11 +1,12 @@
 include ActionController::HttpAuthentication::Token::ControllerMethods
 class PlaylistsController < ApplicationController
-  # before_filter :restrict_access
+  before_filter :restrict_access
   before_action :set_playlist, only: [:show, :update, :destroy]
 
   # GET /playlists
   def index
-    @playlists = Playlist.all.order(Name: :asc)
+    # @playlists = Playlist.all.order(Name: :asc)
+    @playlists = Playlist.joins(:api_key).where('ApiKeyId' => params[:ApiKeyId]).order(Name: :asc)
 
     render json: @playlists
     # render json: @playlists, include: ['tracks']
@@ -18,7 +19,9 @@ class PlaylistsController < ApplicationController
 
   # POST /playlists
   def create
-    @playlist = Playlist.new(playlist_params)
+    # @playlist = Playlist.new(playlist_params)
+    @playlist = Playlist.new(Name: params[:Name], ApiKeyId: params[:ApiKeyId])
+    # @playlist.api_key = ApiKey.find(params[:ApiKeyId])
 
     if @playlist.save
       add_tracks_to_playlist
@@ -30,7 +33,7 @@ class PlaylistsController < ApplicationController
 
   # PATCH/PUT /playlists/1
   def update
-    if @playlist.update(playlist_params)
+    if @playlist.update(Name: params[:Name], ApiKeyId: params[:ApiKeyId])
       add_tracks_to_playlist
       render json: @playlist, include: ['tracks']
     else
@@ -58,7 +61,7 @@ class PlaylistsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def playlist_params
-      params.permit(:PlaylistID, :Name )
+      params.permit(:PlaylistID, :Name, :TrackId, :ApiKeyId )
     end
 
     def restrict_access
