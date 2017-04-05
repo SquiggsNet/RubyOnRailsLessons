@@ -23,6 +23,43 @@
     width: 40px;
 }
 
+.pbottom{
+    padding-bottom: 10px;
+}
+
+.mleft{
+    margin-left: 10px;
+}
+
+.mright{
+    margin-right: 10px;
+}
+
+.lists{
+    background-color: #89e9f9;
+}
+
+.lists thead{
+    background-color: #177aa8;
+}
+
+.list{
+    background-color: #b585fc;
+}
+
+.list thead{
+    background-color: #5b3593;
+}
+
+
+
+thead{
+    color: white;
+    font-size: 22px;
+}
+h3{
+
+}
 /* ==========================================================================
    Media Queries for Responsive Design.
    These styles override the primary styles.

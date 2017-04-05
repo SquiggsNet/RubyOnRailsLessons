@@ -5,9 +5,10 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists
   def index
-    @playlists = Playlist.all.order(Name: :desc)
+    @playlists = Playlist.all.order(Name: :asc)
 
-    render json: @playlists, include: ['tracks']
+    render json: @playlists
+    # render json: @playlists, include: ['tracks']
   end
 
   # GET /playlists/1
